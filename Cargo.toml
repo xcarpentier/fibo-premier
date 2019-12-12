@@ -1,0 +1,7 @@
+[package]
+name = "fibo-premier"
+version = "0.1.0"
+authors = ["Xavier Carpentier <xcapetir@gmail.com>"]
+
+[dependencies]
+cached = "0.11.0"
