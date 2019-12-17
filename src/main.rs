@@ -1,29 +1,29 @@
-fn fibonacci(n: i32) -> i64 {
-    (1.618_f64.powi(n) / 5.0_f64.sqrt()).round() as i64
-}
+use std::env;
 
-fn isPremier(n: i64) -> bool {
-    isPremierFull(n as f64, 3 as f64)
-}
+#[macro_use]
+extern crate cached;
 
-fn isPremierFull(n: f64, i: f64) -> bool {
-    let next: f64 = i + 1.0;
-    if n % 2.0 == 0.0 {
-        return false;
-    }
-    if next >= n.sqrt() {
-      true
-    } else {
-        n % i == 0.0 && isPremierFull(n, next)
+cached! {
+    FIB;
+    fn fibonacci(n_term: usize) -> usize = {
+        match n_term {
+            0 => 0,
+            1 => 1,
+            n => fibonacci(n - 1) + fibonacci(n - 2),
+        }
     }
 }
 
 fn main() {
-    let mut res: i64 = 1;
-    let mut x = 0;
-    while x < 92 {
-        res = fibonacci(x);
-        println!("fibonacci: {} = {} // premier ? {}", x, res, isPremier(res));
-        x+=1
-    }
+    let args: Vec<String> = env::args().collect();
+    let x = args[1].parse::<usize>().unwrap_or_default();
+    let res_memo_minus_1 = fibonacci(x - 1);
+    let res_memo = fibonacci(x);
+    println!();
+    println!("fibonacci({}) = {}", x, res_memo);
+    println!(
+        "[golden ratio = {}]",
+        (res_memo as f64 / res_memo_minus_1 as f64)
+    );
+    println!()
 }
