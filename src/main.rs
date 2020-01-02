@@ -7,8 +7,7 @@ cached! {
     FIB;
     fn fibonacci(n_term: usize) -> usize = {
         match n_term {
-            0 => 0,
-            1 => 1,
+            0 | 1 => n_term,
             n => fibonacci(n - 1) + fibonacci(n - 2),
         }
     }
@@ -21,6 +20,7 @@ fn main() {
     let res_memo = fibonacci(x);
     println!();
     println!("fibonacci({}) = {}", x, res_memo);
+    println!();
     println!(
         "[golden ratio = {}]",
         (res_memo as f64 / res_memo_minus_1 as f64)
